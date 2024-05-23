@@ -54,6 +54,7 @@ stars are adjacent horizontally, vertically, or diagonally.`;
     // const outputArea: HTMLElement = document.getElementById('outputArea') ?? assert.fail('missing output area');
     // outputArea.textContent = instructions;
     // canvas for drawing
+    const body:HTMLBodyElement = document.getElementById('body') as HTMLBodyElement ?? assert.fail("no body");
     const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement ?? assert.fail('missing drawing canvas');
     const autoFillButton = document.getElementById('autofill') as HTMLButtonElement ?? assert.fail("missing button");
     const nextStepButton = document.getElementById('nextStep') as HTMLButtonElement ?? assert.fail("missing button");
@@ -70,6 +71,21 @@ stars are adjacent horizontally, vertically, or diagonally.`;
         drawGrid(grid, canvas);
 
     });
+    document.addEventListener("keydown", (event:KeyboardEvent)=>{
+        // alert(event.key);
+        if(event.key === "ArrowRight"){
+            // alert("hello")
+            grid.solveStep();
+            drawGrid(grid, canvas);
+        }
+        else if(event.key === "ArrowLeft"){
+            grid.unsolveStep();
+            drawGrid(grid, canvas);
+        }
+        else if(event.key === "a"){
+            autoFill(grid, canvas);
+        }
+    })
     // drawPuzzle(canvas, clientADT.toString());
 
 
