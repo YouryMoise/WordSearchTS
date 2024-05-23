@@ -1,0 +1,56 @@
+Is it acceptable for one or two team members to do more work than the others in order to get the team an A?
+Yes, but the contributions of each team member should be noted.
+How will you use the in-class time?
+We’ll use class time to keep each other updated on our progress, discuss the next steps, meet with our TA, and code.
+How often do you think the team will need to meet outside of class time? How long do you anticipate meetings will be?
+Possibly, 2 hours per week, but definitely flexible based on our needs. Meetings may be an hour each.
+When and where (online) will outside-class meetings be held?
+Weekends, online and in New Vassar
+How much time per week do you anticipate it will take to make the project successful?
+Possible 8 hours a week, but will adjust as needed for progress.
+How will you communicate outside of meetings? (Email list? Realtime messaging platform?)
+We will communicate through a group chat on Slack.
+How will work be divided among team members?
+We will work on our respective iteration #0 and iteration #1 tasks, with plans to support one another if needed through code review, debugging, pair programming, and evenly dividing work as we see fit when integrating the final components.
+Iteration #1:
+Tasks (We made some mistakes with the original):
+Youry
+    Originally: Puzzle ADT, Parser
+    After reassignment: Puzzle ADT, Interaction
+Darren
+    Originally: Client ADT, Server
+    After reassignment: Client ADT, Parser
+Daniel
+    Originally: Drawing, Interaction
+    After reassignment: Drawing, Server
+Iteration #0:
+Tasks
+Youry
+    Drawing prototype
+    Client ADT specs + t.s
+    Web API t.s
+    Integration t.s + tests
+Darren - 4
+    Puzzle ADT specs + t.s
+    Grammar
+    Drawing prototype
+    Integration t.s + tests
+Daniel
+    Puzzle ADT specs + t.s
+    Grammar
+    Web API specs + t.s
+    Client ADT specs + t.s
+Where will you record who is responsible for which tasks? (Including future tasks that come up over the course of the project.)
+We’ll use Google Docs to make a checklist.
+How will deadlines be set?
+Based on the one-hour limit for iteration 0 tasks and our availability for the week, we will set task deadlines for the earliest that we believe they could reasonably be finished.
+What will happen if someone does not follow through on a commitment (e.g., missing a deadline, not showing up to meetings)?
+We will try to shift their deadline if it does not conflict with any integration or final deadlines. If it does conflict, other teammates may have to step in and complete anything that is missing.
+How will the work be reviewed?
+We will review code using our slack group chat. All code review messages will include a screenshot or copy-pasted segment of code indicating the filename and line number alongside the actual comment being left about the code.
+What will you do if one or more team members are not doing their share of the work?
+Talk to our TA and adjust our schedule and allocation of work.
+How will you deal with different work habits of individual team members (e.g., some people like to get assignments done as early as possible; others like to work under the pressure of a deadline)?
+We’ll be setting deadlines for ourselves to follow and checking in to adjust our schedule if necessary.
+
+Darren Chen, Daniel Wang, Youry Moise
