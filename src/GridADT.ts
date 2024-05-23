@@ -78,6 +78,14 @@ export class Grid{
         }
     }
 
+    public get numRows():number{
+        return this.wordGrid.length;
+    }
+
+    public get numColumns():number{
+        return this.wordGrid[0]!.length;
+    }
+
     /**
      * Mutates the wordGrid to reflect the next step in solving
      *  @returns
