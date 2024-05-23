@@ -7,15 +7,17 @@ import assert from "assert";
 // which makes this extremely simple
 export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):Array<{row:number, column:number}>{
     const path:Array<{row:number, column:number}> = [];
+    console.log(`targetWord is ${targetWord}`);
     for(let i = 0; i < wordGrid.length;i++){
         const currentRow:Array<gridEntry> | undefined = wordGrid[i];
         assert(currentRow);
+        // console.log(currentRow);
         for(let j = 0; j < currentRow.length; j++){
-
             if(currentRow[j]?.letter === targetWord[0]){
+                // console.log(i,j);
                 // try up
                 let word:string = "";
-                for(let k = i; k >= 0; k--){
+                for(let k = i; k > i - targetWord.length && k >= 0; k--){
                     word+=wordGrid[k]![j]?.letter;
 
                 }
@@ -32,18 +34,20 @@ export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):A
                 word = "";
                 let rowIndex = i;
                 let colIndex = j;
-                while(rowIndex >= 0 && colIndex < currentRow.length){
+                while(rowIndex >= 0 && colIndex < currentRow.length && word.length < targetWord.length){
                     word+=wordGrid[rowIndex]![colIndex]?.letter;
                     rowIndex--;
                     colIndex++;
                 }
                 if(word === targetWord){
+                    word = "";
                     rowIndex = i;
                     colIndex = j;
-                    while(rowIndex >= 0 && colIndex < currentRow.length){
+                    while(rowIndex >= 0 && colIndex < currentRow.length  && word.length < targetWord.length){
                         path.push({row:rowIndex, column:colIndex});
                         rowIndex--;
                         colIndex++;
+                        word+=wordGrid[rowIndex]![colIndex]?.letter;
                     }
                     return path;
                 }
@@ -52,13 +56,16 @@ export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):A
 
                 // try right
                 word = "";
-                for(let k = j; k < currentRow.length; k++){
+                if(targetWord === "cheetah"){
+                    // console.log(`looking for ${targetWord}`)
+                }
+                for(let k = j; k < j + targetWord.length; k++){
                     word+=currentRow[k]?.letter;
 
                 }
-
+                // if(targetWord === "cheetah") console.log(`word is ${word}`);
                 if(word === targetWord){
-                    for(let k = j; k <= targetWord.length; k++){
+                    for(let k = j; k < j+ targetWord.length; k++){
                         path.push({row:i, column:k});
     
                     }
@@ -67,34 +74,40 @@ export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):A
 
 
                 // try down-right
+                console.log(`while down-right, targetWord is ${targetWord}`)                
                 word = "";
                 rowIndex = i;
                 colIndex = j;
-                while(rowIndex < wordGrid.length && colIndex < currentRow.length){
+                while(rowIndex < wordGrid.length && colIndex < currentRow.length  && word.length < targetWord.length){
                     word+=wordGrid[rowIndex]![colIndex]?.letter;
                     rowIndex++;
                     colIndex++;
+                    if(targetWord === "bat"){
+                        console.log(word);
+                    }
                 }
                 if(word === targetWord){
+                    word = "";
                     rowIndex = i;
                     colIndex = j;
-                    while(rowIndex < wordGrid.length && colIndex < currentRow.length){
+                    while(rowIndex < wordGrid.length && colIndex < currentRow.length  && word.length < targetWord.length){
                         path.push({row:rowIndex, column:colIndex});
+                        word+=wordGrid[rowIndex]![colIndex]?.letter;
                         rowIndex++;
-                        colIndex++;
+                        colIndex++; 
                     }
                     return path;
                 }
 
                 // try down
                 word = "";
-                for(let k = i; k < wordGrid.length; k++){
+                for(let k = i; k < i + targetWord.length; k++){
                     word+=wordGrid[k]![j]?.letter;
 
                 }
 
                 if(word === targetWord){
-                    for(let k = i; k < targetWord.length; k++){
+                    for(let k = i; k < i + targetWord.length; k++){
                         path.push({row:k, column:j});
     
                     }
@@ -105,25 +118,27 @@ export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):A
                 word = "";
                 rowIndex = i;
                 colIndex = j;
-                while(rowIndex < wordGrid.length && colIndex >= 0){
+                while(rowIndex < wordGrid.length && colIndex >= 0  && word.length < targetWord.length){
                     word+=wordGrid[rowIndex]![colIndex]?.letter;
                     rowIndex++;
                     colIndex--;
                 }
                 if(word === targetWord){
+                    word = "";
                     rowIndex = i;
                     colIndex = j;
-                    while(rowIndex < wordGrid.length && colIndex >= 0){
+                    while(rowIndex < wordGrid.length && colIndex >= 0  && word.length < targetWord.length){
                         path.push({row:rowIndex, column:colIndex});
                         rowIndex++;
                         colIndex--;
+                        word+=wordGrid[rowIndex]![colIndex]?.letter;
                     }
                     return path;
                 }
 
                 // try left
                 word = "";
-                for(let k = j; k >= 0; k--){
+                for(let k = j; k > j-targetWord.length; k--){
                     word+=currentRow[k]?.letter;
 
                 }
@@ -141,18 +156,20 @@ export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):A
                 word = "";
                 rowIndex = i;
                 colIndex = j;
-                while(rowIndex >= 0 && colIndex >= 0){
+                while(rowIndex >= 0 && colIndex >= 0  && word.length < targetWord.length){
                     word+=wordGrid[rowIndex]![colIndex]?.letter;
                     rowIndex--;
                     colIndex--;
                 }
                 if(word === targetWord){
+                    word = "";
                     rowIndex = i;
                     colIndex = j;
-                    while(rowIndex >= 0 && colIndex >= 0){
+                    while(rowIndex >= 0 && colIndex >= 0  && word.length < targetWord.length){
                         path.push({row:rowIndex, column:colIndex});
                         rowIndex--;
                         colIndex--;
+                        word+=wordGrid[rowIndex]![colIndex]?.letter;
                     }
                     return path;
                 }

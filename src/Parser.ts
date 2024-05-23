@@ -67,7 +67,6 @@ function makeAbstractSyntaxTree(parseTree:ParseTree<ExpressionGrammar>):Grid{
         wordBank.add(text);
     }
 
-    console.log("in here now, ",wordBank);
 
     const newGrid = new Grid(finalGrid, wordBank);
     return newGrid;

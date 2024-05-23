@@ -56,7 +56,7 @@ export function drawGrid(grid:Grid,canvas:HTMLCanvasElement):void{
     
     const numColumns = grid.numColumns;
     const numRows = grid.numRows;
-    const sideLength = 100;
+    const sideLength = 50;
 
     const totalGridWidth:number = numColumns*sideLength;
     const totalGridHeight:number = numRows*sideLength;
@@ -67,11 +67,9 @@ export function drawGrid(grid:Grid,canvas:HTMLCanvasElement):void{
     let startx = xOffset;
     let starty = yOffset;
 
-    console.log(entryList);
     for(const row of entryList){
         for(const entry of row){
             drawSquare(entry, canvas, startx, starty, sideLength);
-            console.log("in here", entry);
             startx+=sideLength;
         }
         startx = xOffset;

@@ -17,7 +17,7 @@ import assert from 'assert';
  */
 const PUZZLE: string = "kd-1-1-1";
 const GRIDTEXT:string = `0 | hi\n1 | he\nWord Bank: hi\nhe\n`;
-
+const REALEXAMPLE:string = `0|vbreefishrachp\n1|anacrocodileeb\n2|aostrichtegrda\n3|iaddhcheetahgd\n4|bhrodraveneneg\n5|eywdlsamolelhe\n6|artpvprcbolror\n7|rhtoaahcrowagh\n8|ccannoriazebra\n9|hanytaekninawa\nWord Bank: fish\nbat\ncrocodile\nhedgehog\naardvark\nostrich\nbadger\ndolphin\ncheetah\nbear\nraven\neel\nmole\npony\nant\ncrow\nzebra\n`
 
 /**
  * runs the star battle game
@@ -29,7 +29,7 @@ The objective of this game is to fill the grid with 20 stars such that every row
 stars are adjacent horizontally, vertically, or diagonally.`;
 
     // const clientADT:ClientADT = new ClientADT();
-    const grid:Grid = parseFromText(GRIDTEXT);
+    const grid:Grid = parseFromText(REALEXAMPLE);
     console.log("running main");
 
 
@@ -43,10 +43,12 @@ stars are adjacent horizontally, vertically, or diagonally.`;
     // drawPuzzle(canvas, clientADT.toString());
 
 
+    drawGrid(grid, canvas);
 
     // when the user clicks on the drawing canvas...
     canvas.addEventListener('click', (event: MouseEvent) => {
         console.log("Hello");
+        grid.solveStep();
         drawGrid(grid, canvas);
         // const rowCol = mouseCoordToRowCol(canvas, event.x, event.y);
         // const row = rowCol.row-1;

@@ -1,5 +1,6 @@
 import { parseExpression } from "./Parser.js";
 import assert from 'assert';
+import { letterBFS } from "./utils.js";
 
 /**
  * Represents a grid of squares with r rows and c columns, 
@@ -31,6 +32,8 @@ export const enum colors {
     PURPLE = "purple",
     ORANGE = "orange"
 }
+const colorsArray = [colors.RED, colors.BLUE, 
+                    colors.GREEN, colors.PURPLE, colors.ORANGE];
 
 export class Grid{
     /*
@@ -56,7 +59,10 @@ export class Grid{
 
 
     private readonly wordGrid:Array<Array<gridEntry>> = [];
-    
+    private currentPath:number = 0;
+    private currentPathIndex:number = 0;
+    private readonly solution:Array<Array<{row:number, column:number}>>;
+    private currentColor:number = 1;
 
     public constructor(inputGrid:Array<Array<gridEntry>>, private readonly wordBank:Set<string>){
         for(const row of inputGrid){
@@ -66,15 +72,16 @@ export class Grid{
             }
         }
         this.checkRep();
+        this.solution  = this.solve();
 
     }
 
     private checkRep():void{
-        assert(this.wordGrid.length > 0);
+        assert(this.wordGrid.length > 0, "No elements in the grid");
         const numEntriesInRowZero:number = this.wordGrid[0]!.length;
-        assert(numEntriesInRowZero > 0);
+        assert(numEntriesInRowZero > 0, "No entries in the first row");
         for(const row of this.wordGrid){
-            assert(row.length === numEntriesInRowZero);
+            assert(row.length === numEntriesInRowZero, "Row length inconsistent");
         }
     }
 
@@ -91,6 +98,30 @@ export class Grid{
      *  @returns
      */
     public solveStep():void{
+        const allPaths = this.solution;
+        console.log(allPaths);
+        console.log(this.wordBank)
+        if(this.currentPath >= allPaths.length){
+            alert("All words found"); //change this to be something that actually displays on the screen
+        }
+        const currentPath = allPaths[this.currentPath];
+
+        assert(currentPath, "No current path");
+
+
+        const currentCoord = currentPath[this.currentPathIndex];
+        const row = currentCoord?.row;
+        const col = currentCoord?.column;
+        assert(row !== undefined, "Row undefined");
+        assert(col !== undefined, "Col undefined");
+        const currentRow = this.wordGrid[row];
+        assert(currentRow, "Current row undefined");
+        currentRow[col]!.color = colorsArray[this.currentColor]!;
+        this.currentPathIndex = (this.currentPathIndex + 1)%currentPath.length;
+        if(this.currentPathIndex === 0){
+            this.currentPath++;
+            this.currentColor = (this.currentColor+1)%colorsArray.length;
+        }
 
     }
 
@@ -123,46 +154,17 @@ export class Grid{
         return false
     }
 
-    private solve():void{
-        // YOURY - maybe replace the hard logic with a BFS that
-        // has first letter as start, last letter as end, and 
-        // neighbors function that only takes letters that come next in
-        // a word
-
-        // for every word in the word bank
-
-        // see if there is an entry with its first letter
-
-        // start a list of paths [[entryCoord]]
-
-        // look at all 8 neighbors, add any that have second letter
-
-        // [[entryCoord], [enctryCoord, enctryCoord1A], [entryCoord, entryCoord1B]]
-
-        // do this until you get to path with correct end letter
-
-        // then change all those coordinates to some color (make them all green for now)
+    private solve():Array<Array<{row:number, column:number}>>{
+        console.log(this.currentState());
+        const allPaths:Array<Array<{row:number, column:number}>> = [];
         for(const word of this.wordBank){
-            const paths:Array<Array<gridEntry>> = [];
-            for(const row of this.wordGrid){
-                for(const entry of row){
-                    if(entry.letter === word[0]){
-
-
-
-
-                    }
-
-
-                }
-
-
-            }
-
-
-
-
+            
+            const wordPath:Array<{row:number, column:number}> = letterBFS(this.currentState(), word);
+            allPaths.push(wordPath);
         }
+
+        return allPaths;
+        
     }
 
     

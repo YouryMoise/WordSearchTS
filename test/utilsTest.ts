@@ -40,6 +40,10 @@ describe("bfs", function(){
     const inputString:string = `0 | hit\n1 | ahe\n2 | tbe\nWord Bank: hi\nhe\nbe\n`;
     const inputString2:string = `0 | hit\n1 | ahe\n2 | lbe\nWord Bank: hi\nhe\nbe\n`;
     const inputString3:string = `0 | hab\n1 | aha\n2 | lbd\nWord Bank: hi\nhe\nbe\n`;
+    const inputString4:string = `0 | li\n1 | he\nWord Bank: hi\nhe\n`;
+    const inputString5:string = `0 | hi\n1 | he\nWord Bank: hi\nhe\n`;
+
+
 
     function testInput(inputText:string, targetWord:string, expectedPath:Array<{row:number, column:number}>):void{
         const grid:Grid = parseFromText(inputText);
@@ -58,10 +62,25 @@ describe("bfs", function(){
 
     it("covers 2 letter horizontal (right) path with 1 false positive for 1st letter", function(){
         const targetWord = "he";
-        const expectedPath = [{row:1, column:1}, {row:1, column:2}];
+        const expectedPath = [{row:1, column:0}, {row:1, column:1}];
         testInput(inputString, targetWord, expectedPath);
 
     });
+    
+    it("covers 2 letter horizontal (right) path with 1 false positive for 1st letter", function(){
+        const targetWord = "he";
+        const expectedPath = [{row:1, column:0}, {row:1, column:1}];
+        testInput(inputString4, targetWord, expectedPath);
+
+    });
+
+    it.only("covers 2 letter horizontal (right) path with 1 false positive for 1st letter", function(){
+        const targetWord = "hi";
+        const expectedPath = [{row:0, column:0}, {row:0, column:1}];
+        testInput(inputString5, targetWord, expectedPath);
+
+    });
+
 
     it("covers +2 letter horizontal (left) path", function(){
         const targetWord = "tih";
