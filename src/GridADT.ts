@@ -99,8 +99,6 @@ export class Grid{
      */
     public solveStep():void{
         const allPaths = this.solution;
-        console.log(allPaths);
-        console.log(this.wordBank)
         if(this.currentPath >= allPaths.length){
             alert("All words found"); //change this to be something that actually displays on the screen
         }
@@ -123,6 +121,39 @@ export class Grid{
             this.currentColor = (this.currentColor+1)%colorsArray.length;
         }
 
+    }
+
+    public unsolveStep():void{
+        // startig from the end, find the first coordinate that isn't white
+        const allPaths = this.solution;
+        for(let i = allPaths.length-1; i>=0; i--){
+            const currentRow = allPaths[i];
+            assert(currentRow, "Row missing");
+            for(let j = currentRow?.length-1; j >= 0; j--){
+                const coordinate = currentRow[j];
+                assert(coordinate, "Coordinate undefined");
+                const row:number = coordinate.row;
+                const col:number = coordinate.column;
+                const entry = this.wordGrid[row]![col];
+                assert(entry);
+                if(entry.color !== colors.WHITE){
+                    console.log(this.currentState())
+                    entry.color = colors.WHITE;
+                    console.log(this.currentState())
+                    if(this.currentPath === i+1){
+                        this.currentColor--;
+                    }
+                    this.currentPath = i;
+                    this.currentPathIndex = j;
+                    
+                    return;
+                }
+
+            }
+        }
+        // turn it white
+
+        // return 
     }
 
     /**

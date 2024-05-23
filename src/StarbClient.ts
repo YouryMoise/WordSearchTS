@@ -31,6 +31,13 @@ const REALEXAMPLE:string = `0|vbreefishrachp\n1|anacrocodileeb\n2|aostrichtegrda
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
+async function autoFill(grid:Grid, canvas:HTMLCanvasElement){
+    while(!grid.isSolved()){
+        grid.solveStep();
+        drawGrid(grid, canvas);
+        await delay(100);
+    }
+}
 async function main(): Promise<void> {
     const instructions:string = `Welcome to Star Puzzle!
 Click on a square to add or remove a star.
@@ -44,21 +51,32 @@ stars are adjacent horizontally, vertically, or diagonally.`;
 
 
     // output area for printing
-    const outputArea: HTMLElement = document.getElementById('outputArea') ?? assert.fail('missing output area');
-    outputArea.textContent = instructions;
+    // const outputArea: HTMLElement = document.getElementById('outputArea') ?? assert.fail('missing output area');
+    // outputArea.textContent = instructions;
     // canvas for drawing
     const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement ?? assert.fail('missing drawing canvas');
+    const autoFillButton = document.getElementById('autofill') as HTMLButtonElement ?? assert.fail("missing button");
+    const nextStepButton = document.getElementById('nextStep') as HTMLButtonElement ?? assert.fail("missing button");
+    const previousStepButton = document.getElementById('previousStep') as HTMLButtonElement ?? assert.fail("missing button");
+    autoFillButton.addEventListener("click", (event:MouseEvent)=>{
+        autoFill(grid, canvas);
+    });
+    nextStepButton.addEventListener("click", (event:MouseEvent)=>{
+        grid.solveStep();
+        drawGrid(grid, canvas);
+    });
+    previousStepButton.addEventListener("click", (event:MouseEvent)=>{
+        grid.unsolveStep();
+        drawGrid(grid, canvas);
 
+    });
     // drawPuzzle(canvas, clientADT.toString());
 
 
     drawGrid(grid, canvas);
+    // autoFill(grid, canvas);
 
-    while(!grid.isSolved()){
-        grid.solveStep();
-        drawGrid(grid, canvas);
-        await delay(100);
-    }
+    
 
     // when the user clicks on the drawing canvas...
     canvas.addEventListener('click', (event: MouseEvent) => {
