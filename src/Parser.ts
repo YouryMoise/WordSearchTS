@@ -39,6 +39,7 @@ function makeAbstractSyntaxTree(parseTree:ParseTree<ExpressionGrammar>):Grid{
     assert(parseTree.name === ExpressionGrammar.Entire, "Incomplete expression");
 
     const finalGrid:Array<Array<gridEntry>> = [];
+    const wordBank:Set<string> = new Set([]);
 
     const allLettersArray = parseTree.childrenByName(ExpressionGrammar.Layout);
     assert(allLettersArray.length > 0, "No letters given");
@@ -59,7 +60,16 @@ function makeAbstractSyntaxTree(parseTree:ParseTree<ExpressionGrammar>):Grid{
         } 
     }
 
-    const newGrid = new Grid(finalGrid);
+    const bank = parseTree.childrenByName(ExpressionGrammar.Bank)[0];
+    const allWords = bank?.childrenByName(ExpressionGrammar.Word);
+    for(const word of allWords!){
+        const text = word.text;
+        wordBank.add(text);
+    }
+
+    console.log("in here now, ",wordBank);
+
+    const newGrid = new Grid(finalGrid, wordBank);
     return newGrid;
     
 

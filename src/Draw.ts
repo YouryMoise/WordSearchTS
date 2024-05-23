@@ -18,10 +18,22 @@ function drawSquare(entry:gridEntry, canvas:HTMLCanvasElement, startX:number, st
     const totalHeight = canvas.height;
     //wipe the canvas to restart
     context.beginPath();
+    context.fillStyle = entry.color;
     context.rect(startX,startY,100,100);
+    context.fillRect(startX,startY,100,100);
+
+    drawLetter(canvas, entry.letter, startX+sideLength/2, startY+sideLength/2);
     context.stroke();
 
 }
+
+function drawLetter(canvas: HTMLCanvasElement, letter: string, x: number, y: number) {
+    const context = canvas.getContext('2d');
+    assert(context, "No context");
+    context.font = "30px Arial";
+    context.fillStyle = "black";
+    context.fillText(letter, x, y);
+  }
 
 /**
  * 
