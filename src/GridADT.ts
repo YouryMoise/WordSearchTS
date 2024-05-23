@@ -129,7 +129,7 @@ export class Grid{
      * Returns true iff the puzzle is solved
      */
     public isSolved():boolean{
-        return false;
+        return this.currentPath >= this.solution.length;
     }
 
     /**

@@ -22,6 +22,15 @@ const REALEXAMPLE:string = `0|vbreefishrachp\n1|anacrocodileeb\n2|aostrichtegrda
 /**
  * runs the star battle game
  */
+// async function autoFill(grid:Grid, counter:number){
+//     if(counter === 20) return;
+//     grid.solveStep();
+//     setTimeout(()=>autoFill(grid, counter+1), 0)
+
+// }
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 async function main(): Promise<void> {
     const instructions:string = `Welcome to Star Puzzle!
 Click on a square to add or remove a star.
@@ -45,11 +54,17 @@ stars are adjacent horizontally, vertically, or diagonally.`;
 
     drawGrid(grid, canvas);
 
+    while(!grid.isSolved()){
+        grid.solveStep();
+        drawGrid(grid, canvas);
+        await delay(100);
+    }
+
     // when the user clicks on the drawing canvas...
     canvas.addEventListener('click', (event: MouseEvent) => {
         console.log("Hello");
-        grid.solveStep();
-        drawGrid(grid, canvas);
+        // grid.solveStep();
+        // drawGrid(grid, canvas);
         // const rowCol = mouseCoordToRowCol(canvas, event.x, event.y);
         // const row = rowCol.row-1;
         // const col = rowCol.col-1;
