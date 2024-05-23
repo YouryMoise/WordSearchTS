@@ -119,6 +119,10 @@ export class Grid{
         return "";
     }
 
+    public equalValue(otherGrid:Grid):boolean{
+        return false
+    }
+
     private solve():void{
         // YOURY - maybe replace the hard logic with a BFS that
         // has first letter as start, last letter as end, and 

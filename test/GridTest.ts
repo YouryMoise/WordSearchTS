@@ -56,7 +56,7 @@ describe('Grid', function () {
         assert.throws(()=>parseFromText(inconsistentGrid));
     });
 
-    it.only("covers valid input where num rows = num columns", function(){
+    it("covers valid input where num rows = num columns", function(){
         const grid:Grid = parseFromText(rowEqColGrid);
         const expectedGrid:Array<Array<gridEntry>> = [
             [{letter:"h", color:colors.WHITE},{letter:"i", color:colors.WHITE}],
@@ -67,7 +67,7 @@ describe('Grid', function () {
         
     });
 
-    it.only("covers rows > cols", function(){
+    it("covers rows > cols", function(){
         const grid:Grid = parseFromText(rowGreaterColGrid);
         const expectedGrid:Array<Array<gridEntry>> = [
             [{letter:"h", color:colors.WHITE},{letter:"i", color:colors.WHITE}],
@@ -78,7 +78,7 @@ describe('Grid', function () {
         assert.deepStrictEqual(expectedGrid, grid.currentState());
     });
 
-    it.only("covers rows < cols", function(){
+    it("covers rows < cols", function(){
         const grid:Grid = parseFromText(rowLessColGrid);
         const expectedGrid:Array<Array<gridEntry>> = [
             [{letter:"h", color:colors.WHITE},{letter:"e", color:colors.WHITE},{letter:"l", color:colors.WHITE},{letter:"l", color:colors.WHITE},{letter:"o", color:colors.WHITE},{letter:"w", color:colors.WHITE},{letter:"o", color:colors.WHITE},{letter:"r", color:colors.WHITE},{letter:"l", color:colors.WHITE},{letter:"d", color:colors.WHITE}],
