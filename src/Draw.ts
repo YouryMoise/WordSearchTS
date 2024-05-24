@@ -19,8 +19,8 @@ function drawSquare(entry:gridEntry, canvas:HTMLCanvasElement, startX:number, st
     //wipe the canvas to restart
     context.beginPath();
     context.fillStyle = entry.color;
-    context.rect(startX,startY,100,100);
-    context.fillRect(startX,startY,100,100);
+    context.rect(startX,startY,sideLength,sideLength);
+    context.fillRect(startX,startY,sideLength,sideLength);
 
     drawLetter(canvas, entry.letter, startX+sideLength/2, startY+sideLength/2);
     context.stroke();
@@ -41,13 +41,7 @@ function drawLetter(canvas: HTMLCanvasElement, letter: string, x: number, y: num
  * @param canvas A canvas object to mutate and draw on
  */
 export function drawGrid(grid:Grid,canvas:HTMLCanvasElement):void{
-    const screenWidth = window.screen.width;
-    const screenHeight = window.screen.height;
-
-    const padding = 100;
-
-    canvas.width = screenWidth-2*padding;
-    canvas.height = screenHeight-2*padding;
+    
 
     const context = canvas.getContext('2d');
     assert(context, "No context");
@@ -56,7 +50,8 @@ export function drawGrid(grid:Grid,canvas:HTMLCanvasElement):void{
     
     const numColumns = grid.numColumns;
     const numRows = grid.numRows;
-    const sideLength = 50;
+    const sideLength = Math.min(canvas.height/numRows,canvas.width/numColumns);
+    // YOURY - need to limit this so smal puzzles don't have to take up the whole screen
 
     const totalGridWidth:number = numColumns*sideLength;
     const totalGridHeight:number = numRows*sideLength;

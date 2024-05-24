@@ -17,7 +17,7 @@ import assert from 'assert';
  */
 const PUZZLE: string = "kd-1-1-1";
 const GRIDTEXT:string = `0 | hi\n1 | he\nWord Bank: hi\nhe\n`;
-const REALEXAMPLE:string = `0|vbreefishrachp\n1|anacrocodileeb\n2|aostrichtegrda\n3|iaddhcheetahgd\n4|bhrodraveneneg\n5|eywdlsamolelhe\n6|artpvprcbolror\n7|rhtoaahcrowagh\n8|ccannoriazebra\n9|hanytaekninawa\nWord Bank: fish\nbat\ncrocodile\nhedgehog\naardvark\nostrich\nbadger\ndolphin\ncheetah\nbear\nraven\neel\nmole\npony\nant\ncrow\nzebra\n`
+const DEFAULT:string = `0|vbreefishrachp\n1|anacrocodileeb\n2|aostrichtegrda\n3|iaddhcheetahgd\n4|bhrodraveneneg\n5|eywdlsamolelhe\n6|artpvprcbolror\n7|rhtoaahcrowagh\n8|ccannoriazebra\n9|hanytaekninawa\nWord Bank: fish\nbat\ncrocodile\nhedgehog\naardvark\nostrich\nbadger\ndolphin\ncheetah\nbear\nraven\neel\nmole\npony\nant\ncrow\nzebra\n`
 
 /**
  * runs the star battle game
@@ -39,13 +39,11 @@ async function autoFill(grid:Grid, canvas:HTMLCanvasElement){
     }
 }
 async function main(): Promise<void> {
-    const instructions:string = `Welcome to Star Puzzle!
-Click on a square to add or remove a star.
-The objective of this game is to fill the grid with 20 stars such that every row, column, and region (outlined in bold lines) has exactly 2 stars and no
-stars are adjacent horizontally, vertically, or diagonally.`;
+    const inputStarterText:string = "Enter a parsable puzzle string or leave blank to use default puzzle";
+
 
     // const clientADT:ClientADT = new ClientADT();
-    const grid:Grid = parseFromText(REALEXAMPLE);
+    let grid:Grid;
     console.log("running main");
 
 
@@ -54,11 +52,16 @@ stars are adjacent horizontally, vertically, or diagonally.`;
     // const outputArea: HTMLElement = document.getElementById('outputArea') ?? assert.fail('missing output area');
     // outputArea.textContent = instructions;
     // canvas for drawing
-    const body:HTMLBodyElement = document.getElementById('body') as HTMLBodyElement ?? assert.fail("no body");
+    const body:HTMLBodyElement = document.getElementById('body') as HTMLBodyElement ?? assert.fail('missing drawing canvas');
     const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement ?? assert.fail('missing drawing canvas');
     const autoFillButton = document.getElementById('autofill') as HTMLButtonElement ?? assert.fail("missing button");
     const nextStepButton = document.getElementById('nextStep') as HTMLButtonElement ?? assert.fail("missing button");
     const previousStepButton = document.getElementById('previousStep') as HTMLButtonElement ?? assert.fail("missing button");
+    const submitInputButton = document.getElementById('submitButton') as HTMLButtonElement ?? assert.fail("missing button");
+
+    const inputBox = document.getElementById('userInput') as HTMLInputElement ?? assert.fail("missing input");
+    inputBox.value = inputStarterText;
+    
     autoFillButton.addEventListener("click", (event:MouseEvent)=>{
         autoFill(grid, canvas);
     });
@@ -71,8 +74,39 @@ stars are adjacent horizontally, vertically, or diagonally.`;
         drawGrid(grid, canvas);
 
     });
-    document.addEventListener("keydown", (event:KeyboardEvent)=>{
+    submitInputButton.addEventListener("click", (event:MouseEvent)=>{
+        const newPuzzle:string = inputBox.value === "" ? DEFAULT : inputBox.value;
+        
+        try{
+            grid = parseFromText(newPuzzle);
+        }catch{
+            alert(`Unable to parse input ${inputBox.value}`);
+        }
+        drawGrid(grid, canvas);
+
+    });
+    inputBox.addEventListener("keydown", (event:KeyboardEvent)=>{
+        if(event.key === "Enter"){
+            const newPuzzle:string = inputBox.value === "" ? DEFAULT : inputBox.value;
+        
+        try{
+            grid = parseFromText(newPuzzle);
+        }catch{
+            alert(`Unable to parse input ${inputBox.value}`);
+        }
+        drawGrid(grid, canvas);
+        }
+    })
+    inputBox.addEventListener("click", ()=>{
+        if(inputBox.value === inputStarterText) inputBox.value = "";
+    })
+
+    
+    
+    body.addEventListener("keydown", (event:KeyboardEvent)=>{
         // alert(event.key);
+        const tagName = (event.target as HTMLElement).tagName;
+        if(tagName !== "INPUT"){
         if(event.key === "ArrowRight"){
             // alert("hello")
             grid.solveStep();
@@ -85,11 +119,18 @@ stars are adjacent horizontally, vertically, or diagonally.`;
         else if(event.key === "a"){
             autoFill(grid, canvas);
         }
+    }
     })
     // drawPuzzle(canvas, clientADT.toString());
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
 
+    const padding = 100;
 
-    drawGrid(grid, canvas);
+    canvas.width = screenWidth/2;
+    canvas.height = screenHeight-2*padding;
+
+    // drawGrid(grid, canvas);
     // autoFill(grid, canvas);
 
     

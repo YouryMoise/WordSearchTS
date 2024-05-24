@@ -141,7 +141,7 @@ export class Grid{
                     entry.color = colors.WHITE;
                     console.log(this.currentState())
                     if(this.currentPath === i+1){
-                        this.currentColor--;
+                        this.currentColor = Math.max(this.currentColor-1, 0);
                     }
                     this.currentPath = i;
                     this.currentPathIndex = j;
