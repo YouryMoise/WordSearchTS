@@ -75,24 +75,28 @@ async function main(): Promise<void> {
 
     });
     submitInputButton.addEventListener("click", (event:MouseEvent)=>{
-        const newPuzzle:string = inputBox.value === "" ? DEFAULT : inputBox.value;
+        const newPuzzle:string = inputBox.value === "" ? DEFAULT : inputBox.value.replaceAll("\\n", "\n");;
         
         try{
+
             grid = parseFromText(newPuzzle);
-        }catch{
-            alert(`Unable to parse input ${inputBox.value}`);
+        }catch(error){
+            alert(`Unable to parse input ${inputBox.value}. Got error ${error}`);
         }
         drawGrid(grid, canvas);
 
     });
     inputBox.addEventListener("keydown", (event:KeyboardEvent)=>{
         if(event.key === "Enter"){
-            const newPuzzle:string = inputBox.value === "" ? DEFAULT : inputBox.value;
+            const newPuzzle:string = inputBox.value === "" ? DEFAULT : inputBox.value.replaceAll("\\n", "\n");;
         
         try{
+            
             grid = parseFromText(newPuzzle);
-        }catch{
-            alert(`Unable to parse input ${inputBox.value}`);
+        }catch(error){
+            alert(`Unable to parse input ${inputBox.value}. Got error ${error}`);
+            console.log(`example is ${DEFAULT}`);
+            console.log(`input is ${newPuzzle}`);   
         }
         drawGrid(grid, canvas);
         }
@@ -137,7 +141,7 @@ async function main(): Promise<void> {
 
     // when the user clicks on the drawing canvas...
     canvas.addEventListener('click', (event: MouseEvent) => {
-        console.log("Hello");
+        ("Hello");
         // grid.solveStep();
         // drawGrid(grid, canvas);
         // const rowCol = mouseCoordToRowCol(canvas, event.x, event.y);

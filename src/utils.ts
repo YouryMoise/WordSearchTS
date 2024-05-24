@@ -7,7 +7,6 @@ import assert from "assert";
 // which makes this extremely simple
 export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):Array<{row:number, column:number}>{
     const path:Array<{row:number, column:number}> = [];
-    console.log(`targetWord is ${targetWord}`);
     for(let i = 0; i < wordGrid.length;i++){
         const currentRow:Array<gridEntry> | undefined = wordGrid[i];
         assert(currentRow);
@@ -74,7 +73,6 @@ export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):A
 
 
                 // try down-right
-                console.log(`while down-right, targetWord is ${targetWord}`)                
                 word = "";
                 rowIndex = i;
                 colIndex = j;
@@ -82,9 +80,7 @@ export function letterBFS(wordGrid:Array<Array<gridEntry>>, targetWord:string):A
                     word+=wordGrid[rowIndex]![colIndex]?.letter;
                     rowIndex++;
                     colIndex++;
-                    if(targetWord === "bat"){
-                        console.log(word);
-                    }
+                    
                 }
                 if(word === targetWord){
                     word = "";

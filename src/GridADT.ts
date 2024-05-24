@@ -137,9 +137,7 @@ export class Grid{
                 const entry = this.wordGrid[row]![col];
                 assert(entry);
                 if(entry.color !== colors.WHITE){
-                    console.log(this.currentState())
                     entry.color = colors.WHITE;
-                    console.log(this.currentState())
                     if(this.currentPath === i+1){
                         this.currentColor = Math.max(this.currentColor-1, 0);
                     }
@@ -186,7 +184,6 @@ export class Grid{
     }
 
     private solve():Array<Array<{row:number, column:number}>>{
-        console.log(this.currentState());
         const allPaths:Array<Array<{row:number, column:number}>> = [];
         for(const word of this.wordBank){
             
