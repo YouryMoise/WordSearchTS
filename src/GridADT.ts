@@ -34,8 +34,10 @@ import { letterBFS } from "./utils.js";
 //  (only supporting 2 intersecting words for now)
 // in Draw.ts, draw 4 small rectangles instead (should be simple change)
 
+// give this a list of words that have used it to make it easier
 export type gridEntry = { readonly letter:string, colorTopLeft:colors, colorTopRight:colors,
-                                                  colorBottomLeft:colors, colorBottomRight:colors
+                                                  colorBottomLeft:colors, colorBottomRight:colors,
+                                                  words:Array<string>,
 };
 
 export const enum colors {
@@ -77,6 +79,7 @@ export class Grid{
     private currentPathIndex:number = 0;
     private readonly solution:Array<Array<{row:number, column:number}>>;
     private currentColor:number = 1;
+    private readonly wordToCoordinatesMap:Map<string, Array<{row:number, column:number}>> = new Map();
 
     public constructor(inputGrid:Array<Array<gridEntry>>, private readonly wordBank:Set<string>){
         for(const row of inputGrid){
@@ -84,6 +87,9 @@ export class Grid{
             for(const entry of row){
                 this.wordGrid[this.wordGrid.length-1]?.push(entry);
             }
+        }
+        for(const word of this.wordBank){
+            this.wordToCoordinatesMap.set(word, []);
         }
         this.checkRep();
         this.solution  = this.solve();
@@ -114,12 +120,24 @@ export class Grid{
             entry.colorBottomLeft = colorBottomLeft;
             entry.colorBottomRight = colorBottomRight;
         }
+    
+    private isColored(entry:gridEntry):boolean{
+        return (
+            entry.colorTopLeft !== colors.WHITE ||
+            entry.colorTopRight !== colors.WHITE ||
+            entry.colorBottomLeft !== colors.WHITE ||
+            entry.colorBottomRight !== colors.WHITE
+        )
+    }
+
 
     /**
      * Mutates the wordGrid to reflect the next step in solving
      *  @returns
      */
     public solveStep():void{
+        let currentWord:string = "";
+        
         const allPaths = this.solution;
         if(this.currentPath >= allPaths.length){
             alert("All words found"); //change this to be something that actually displays on the screen
@@ -127,6 +145,7 @@ export class Grid{
         const currentPath = allPaths[this.currentPath];
 
         assert(currentPath, "No current path");
+        
 
 
         const currentCoord = currentPath[this.currentPathIndex];
@@ -136,10 +155,95 @@ export class Grid{
         assert(col !== undefined, "Col undefined");
         const currentRow = this.wordGrid[row];
         assert(currentRow, "Current row undefined");
+        for(const coord of currentPath){
+            const entry:gridEntry|undefined = this.wordGrid[coord.row]![coord.column];
+            currentWord += (entry?.letter);
+        }
         // currentRow[col]!.color = colorsArray[this.currentColor]!;
-        this.setEntryColor(currentRow[col]!, colorsArray[this.currentColor]!, colorsArray[this.currentColor]!,
-            colorsArray[this.currentColor]!,colorsArray[this.currentColor]!
-        );
+
+        const entry = currentRow[col];
+        assert(entry, "No entry found");
+        // if entry has any colors
+        let relevantCoordinates:Array<{row:number, column:number}> = [];
+        if(this.isColored(entry)){
+            let found:boolean = false;
+            // find which word
+            // for(const [word, coordinates] of this.wordToCoordinatesMap){
+            //     for(const coordinate of coordinates){
+            //         if(coordinate.row === row && coordinate.column === col){
+            //             found = true;
+            //             relevantCoordinates = coordinates;
+            //             break;
+            //         }
+            //         if(found) break;
+            //     }
+            // }
+
+
+        }
+
+        if(entry.words.length > 1 && this.isColored(entry)){
+            const word1 = currentWord;
+            const word2:string|undefined = entry.words.filter((x)=>x!==word1)[0];
+            assert(word2);
+            console.log(word2);
+            assert(word1 && word2);
+            const word1Coordinates:Array<{row:number, column:number}>|undefined = this.wordToCoordinatesMap.get(word1);
+            const word2Coordinates:Array<{row:number, column:number}>|undefined = this.wordToCoordinatesMap.get(word2);
+            assert(word1Coordinates && word2Coordinates, "Coordinates either undefined or empty");
+            const xAverage1 = word1Coordinates.reduce((prev:number, current:{row:number, column:number})=>{
+                return prev+current.column;
+            },0)/word1Coordinates.length;
+            const xAverage2 = word2Coordinates.reduce((prev:number, current:{row:number, column:number})=>{
+                return prev+current.column;
+            },0)/word2Coordinates.length;
+
+            const yAverage1 = word1Coordinates.reduce((prev:number, current:{row:number, column:number})=>{
+                return prev+current.row;
+            },0)/word1Coordinates.length;
+            const yAverage2 = word2Coordinates.reduce((prev:number, current:{row:number, column:number})=>{
+                return prev+current.row;
+            },0)/word2Coordinates.length;
+
+            const xDifference = xAverage1-xAverage2;
+            const yDifference = yAverage1-yAverage2;
+            const originalColor = entry.colorTopLeft;
+            if(Math.abs(xDifference) >= Math.abs(yDifference)){
+                if(xDifference < 0){
+                    // preserve new colors while adding new ones
+                    entry.colorTopLeft = colorsArray[this.currentColor] as colors;
+                    entry.colorBottomLeft = colorsArray[this.currentColor] as colors;
+
+                }
+                else{
+                    // preserve new colors while adding new ones
+                    entry.colorTopRight = colorsArray[this.currentColor] as colors;
+                    entry.colorBottomRight = colorsArray[this.currentColor] as colors;
+
+                }
+                
+            }else{
+                if(yDifference < 0){
+                    // preserve new colors while adding new ones
+                    entry.colorTopLeft = colorsArray[this.currentColor] as colors;
+                    entry.colorTopRight = colorsArray[this.currentColor] as colors;
+
+                }else{
+                    entry.colorBottomLeft = colorsArray[this.currentColor] as colors;
+                    entry.colorBottomRight = colorsArray[this.currentColor] as colors;
+                }
+            }
+        }else{
+            this.setEntryColor(entry, colorsArray[this.currentColor]!, colorsArray[this.currentColor]!,
+                colorsArray[this.currentColor]!,colorsArray[this.currentColor]!
+            );
+        }
+
+        // calculate average x and y coordinates (will need new data structure for this)
+        
+        // set squares according to averages
+
+        
         this.currentPathIndex = (this.currentPathIndex + 1)%currentPath.length;
         if(this.currentPathIndex === 0){
             this.currentPath++;
@@ -216,9 +320,15 @@ export class Grid{
         for(const word of this.wordBank){
             
             const wordPath:Array<{row:number, column:number}> = letterBFS(this.currentState(), word);
+            const wordCoordinates:Array<{row:number, column:number}>|undefined = this.wordToCoordinatesMap.get(word);
+            assert(wordCoordinates !== undefined, "Word not found in word bank");
+            for(const coordinate of wordPath){
+                wordCoordinates.push(coordinate);
+            }
+
             allPaths.push(wordPath);
         }
-
+        // console.log(this.wordToCoordinatesMap);
         return allPaths;
         
     }

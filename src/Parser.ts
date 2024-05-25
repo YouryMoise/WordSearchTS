@@ -56,7 +56,7 @@ function makeAbstractSyntaxTree(parseTree:ParseTree<ExpressionGrammar>):Grid{
         const letters:string = (lineTextSplit[1] as string).replace(/\s/g, "");
         for(const letter of letters){
             const newEntry = {letter:letter, colorTopLeft:colors.WHITE,colorTopRight:colors.WHITE,
-                colorBottomLeft:colors.WHITE,colorBottomRight:colors.WHITE
+                colorBottomLeft:colors.WHITE,colorBottomRight:colors.WHITE, words:[]
             };
             finalGrid[finalGrid.length-1]?.push(newEntry);
         } 
