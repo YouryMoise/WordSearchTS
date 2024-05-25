@@ -10,7 +10,8 @@ import assert from "assert";
  * @param startX The x coordinate of the top left corner of the square
  * @param startY The y coordinate of the top left corner of the square
  */
-function drawSquare(entry:gridEntry, canvas:HTMLCanvasElement, startX:number, startY:number, sideLength:number):void{
+function drawSquare(entry:gridEntry, canvas:HTMLCanvasElement, startX:number, startY:number, 
+    sideLength:number):void{
     // planning to have width and height be constant for now
     const context = canvas.getContext('2d');
     assert(context, "No context");
@@ -18,9 +19,20 @@ function drawSquare(entry:gridEntry, canvas:HTMLCanvasElement, startX:number, st
     const totalHeight = canvas.height;
     //wipe the canvas to restart
     context.beginPath();
-    context.fillStyle = entry.color;
     context.rect(startX,startY,sideLength,sideLength);
-    context.fillRect(startX,startY,sideLength,sideLength);
+ 
+    
+    context.fillStyle = entry.colorTopLeft;
+    context.fillRect(startX,startY,sideLength/2,sideLength/2);
+
+    context.fillStyle = entry.colorTopRight;
+    context.fillRect(startX+sideLength/2,startY,sideLength/2,sideLength/2);
+
+    context.fillStyle = entry.colorBottomLeft;
+    context.fillRect(startX,startY+sideLength/2,sideLength/2,sideLength/2);
+
+    context.fillStyle = entry.colorBottomRight;
+    context.fillRect(startX+sideLength/2,startY+sideLength/2,sideLength/2,sideLength/2);
 
     drawLetter(canvas, entry.letter, startX+sideLength/2, startY+sideLength/2);
     context.stroke();

@@ -59,8 +59,8 @@ describe('Grid', function () {
     it("covers valid input where num rows = num columns", function(){
         const grid:Grid = parseFromText(rowEqColGrid);
         const expectedGrid:Array<Array<gridEntry>> = [
-            [{letter:"h", color:colors.WHITE},{letter:"i", color:colors.WHITE}],
-            [{letter:"h", color:colors.WHITE},{letter:"e", color:colors.WHITE}],
+            [{letter:"h", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"i", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE}],
+            [{letter:"h", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"e", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE}],
 
         ];
         assert.deepStrictEqual(expectedGrid, grid.currentState());
@@ -70,9 +70,9 @@ describe('Grid', function () {
     it("covers rows > cols", function(){
         const grid:Grid = parseFromText(rowGreaterColGrid);
         const expectedGrid:Array<Array<gridEntry>> = [
-            [{letter:"h", color:colors.WHITE},{letter:"i", color:colors.WHITE}],
-            [{letter:"h", color:colors.WHITE},{letter:"e", color:colors.WHITE}],
-            [{letter:"b", color:colors.WHITE},{letter:"e", color:colors.WHITE}],
+            [{letter:"h", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"i", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE}],
+            [{letter:"h", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"e", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE}],
+            [{letter:"b", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"e", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE}],
 
         ];
         assert.deepStrictEqual(expectedGrid, grid.currentState());
@@ -81,8 +81,8 @@ describe('Grid', function () {
     it("covers rows < cols", function(){
         const grid:Grid = parseFromText(rowLessColGrid);
         const expectedGrid:Array<Array<gridEntry>> = [
-            [{letter:"h", color:colors.WHITE},{letter:"e", color:colors.WHITE},{letter:"l", color:colors.WHITE},{letter:"l", color:colors.WHITE},{letter:"o", color:colors.WHITE},{letter:"w", color:colors.WHITE},{letter:"o", color:colors.WHITE},{letter:"r", color:colors.WHITE},{letter:"l", color:colors.WHITE},{letter:"d", color:colors.WHITE}],
-            [{letter:"h", color:colors.WHITE},{letter:"i", color:colors.WHITE},{letter:"t", color:colors.WHITE},{letter:"h", color:colors.WHITE},{letter:"e", color:colors.WHITE},{letter:"r", color:colors.WHITE},{letter:"e", color:colors.WHITE},{letter:"a", color:colors.WHITE},{letter:"a", color:colors.WHITE},{letter:"a", color:colors.WHITE},]
+            [{letter:"h", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"e", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"l", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"l", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"o", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"w", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"o", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"r", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"l", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"d", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE}],
+            [{letter:"h", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"i", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"t", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"h", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"e", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"r", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"e", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"a", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"a", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},{letter:"a", colorTopLeft:colors.WHITE, colorTopRight:colors.WHITE, colorBottomLeft:colors.WHITE, colorBottomRight:colors.WHITE},]
 
         ];
         assert.deepStrictEqual(expectedGrid, grid.currentState());

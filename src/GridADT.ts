@@ -22,7 +22,21 @@ import { letterBFS } from "./utils.js";
  * For first iteration, just solve puzzle beforehand and 
  * only color the ones that have been found in solution
  */
-export type gridEntry = { readonly letter:string, color:colors};
+
+// YOURY - plan for making the squares have different colors
+// gridEntry now has a field specifying which part should be colored (top, left, right, bottom)
+// actually gridEntry may not need any extra info since the main differences are next step and prevStep
+// actually Draw.ts uses gridEntry to determine color so would need it
+// gridEntry = {letter, colorTopLeft, colorTopRight...}
+// When calling next step, if all the regions are white, then change them all
+// if all regions are same non-white color, find the word with letter in that square
+//  find average x and y of both words, and choose which 2 regions to color
+//  (only supporting 2 intersecting words for now)
+// in Draw.ts, draw 4 small rectangles instead (should be simple change)
+
+export type gridEntry = { readonly letter:string, colorTopLeft:colors, colorTopRight:colors,
+                                                  colorBottomLeft:colors, colorBottomRight:colors
+};
 
 export const enum colors {
     WHITE = "white", 
@@ -93,6 +107,14 @@ export class Grid{
         return this.wordGrid[0]!.length;
     }
 
+    private setEntryColor(entry:gridEntry, colorTopLeft:colors, colorTopRight:colors,
+        colorBottomLeft:colors, colorBottomRight:colors):void{
+            entry.colorTopLeft = colorTopLeft;
+            entry.colorTopRight = colorTopRight;
+            entry.colorBottomLeft = colorBottomLeft;
+            entry.colorBottomRight = colorBottomRight;
+        }
+
     /**
      * Mutates the wordGrid to reflect the next step in solving
      *  @returns
@@ -114,7 +136,10 @@ export class Grid{
         assert(col !== undefined, "Col undefined");
         const currentRow = this.wordGrid[row];
         assert(currentRow, "Current row undefined");
-        currentRow[col]!.color = colorsArray[this.currentColor]!;
+        // currentRow[col]!.color = colorsArray[this.currentColor]!;
+        this.setEntryColor(currentRow[col]!, colorsArray[this.currentColor]!, colorsArray[this.currentColor]!,
+            colorsArray[this.currentColor]!,colorsArray[this.currentColor]!
+        );
         this.currentPathIndex = (this.currentPathIndex + 1)%currentPath.length;
         if(this.currentPathIndex === 0){
             this.currentPath++;
@@ -136,10 +161,13 @@ export class Grid{
                 const col:number = coordinate.column;
                 const entry = this.wordGrid[row]![col];
                 assert(entry);
-                if(entry.color !== colors.WHITE){
-                    entry.color = colors.WHITE;
+                // YOURY - change this to make sense later
+                if(entry.colorTopLeft !== colors.WHITE){
+                    // entry.color = colors.WHITE;
+                    this.setEntryColor(entry, colors.WHITE,colors.WHITE,colors.WHITE,colors.WHITE);
+
                     if(this.currentPath === i+1){
-                        this.currentColor = Math.max(this.currentColor-1, 0);
+                        this.currentColor = Math.max((this.currentColor-1)%colorsArray.length, 0);
                     }
                     this.currentPath = i;
                     this.currentPathIndex = j;
