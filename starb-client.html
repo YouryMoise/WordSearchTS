@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Star Battle</title>
+
+    <style>
+        #canvas {
+            border: 1px solid black;
+            margin: 20px;
+        }
+        #outputArea {
+            border: 1px solid lightgray;
+            margin: 20px;
+            height: 256px;
+            width: 512px;
+            overflow: scroll;
+            padding: 5px;
+            white-space: pre-wrap;
+        }
+        button{
+            margin-top:10%;
+        }
+        .interface *{
+            display:inline;
+            float:none;
+        }
+    </style>
+</head>
+
+<body id = "body">
+    <canvas id="canvas" width="256" height="256" style = "margin-right:5%;margin-left:0;"></canvas>
+    
+
+    <div id = "interface" style = "position: absolute;margin-right:0.3%;top:5%;right:0;border:solid;
+    text-align: center;">
+        <p >Welcome to the automated word search solver!<br>
+            Enter a valid, parsable puzzle above and run through the solution and click the "Autofill" button <br>
+            or hit the "a" button on your keyboard to see the puzzle get solved.<br>
+            You can also click the "Next Step" and "Previous Step" buttons (Right arrow and left arrow on<br>
+             keyboard respectively) to run through the solution letter by letter.
+        </p>
+
+        <div style = "width:100%;">
+        <input id = "userInput"   style = "width:75%;">
+        <button id = "submitButton" style = "width:20%;margin-left:2%;">Submit (Enter)</button>
+        </div>
+        <br>
+
+        <button id = "nextStep" >Next Step (a)</button>
+<br>
+    <button id = "previousStep" >Previous Step (Right arrow)</button>
+<br>
+    <button id = "autofill" >Autofill (Left arrow)</button>
+
+   
+
+    </div>
+
+    <!-- <div id="outputArea"></div> -->
+
+    
+
+    <script src="dist/client-bundle.js"></script>
+</body>
+</html>
